@@ -21,6 +21,8 @@ def server():
     print("[S]: Server IP address is {}".format(localhost_ip))
     csockid, addr = ss.accept()
     print ("[S]: Got a connection request from a client at {}".format(addr))
+    m = "Welcome to CS 352!"
+    csockid.send(m.encode('utf-8'))
 
     continueLoop = True
     while(continueLoop):

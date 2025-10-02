@@ -20,6 +20,7 @@ def client():
     # connect to the server on local machine
     server_binding = (localhost_addr, port)
     cs.connect(server_binding)
+    print(cs.recv(100).decode('utf-8'))
 
     # create message to send to server
     with open("in-proj.txt", 'r') as file:
@@ -33,6 +34,7 @@ def client():
         outputFile.write((data_from_server.decode('utf-8') + "\n"))
     
     endMessage = "end"
+
     cs.sendall(endMessage.encode('utf-8'))
     cs.close()
 
