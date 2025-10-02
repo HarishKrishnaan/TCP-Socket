@@ -12,7 +12,7 @@ def server():
         print('socket open error: {}\n'.format(err))
         exit()
 
-    server_binding = ('0.0.0.0', 50007)
+    server_binding = ('0.0.0.0', 30124)
     ss.bind(server_binding)
     ss.listen(1)
     host = socket.gethostname()
@@ -22,11 +22,15 @@ def server():
     csockid, addr = ss.accept()
     print ("[S]: Got a connection request from a client at {}".format(addr))
 
-    # send a intro message to the client.  
-    msg = "Welcome to CS 352!"
-    csockid.send(msg.encode('utf-8'))
+    continueLoop = True
+    while(continueLoop):
+        data_from_server=csockid.recv(100).decode('utf-8')
+        msg = data_from_server.swapcase()[::-1]
+        if (msg == "DNE"):
+            break
+        csockid.send(msg.encode('utf-8'))
 
-    # Close the server socket
+
     ss.close()
     exit()
 
@@ -36,5 +40,4 @@ if __name__ == "__main__":
     t1 = threading.Thread(name='server', target=server)
     t1.start()
 
-    time.sleep(5)
     print("Done.")
